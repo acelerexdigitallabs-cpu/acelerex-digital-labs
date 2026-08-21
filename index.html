@@ -435,9 +435,6 @@
     .beta-panel { grid-template-columns: 1.1fr 1fr; align-items: center; }
   }
   .beta-copy p { color: var(--ink-dim); margin-top: 0.9rem; max-width: 42ch; }
-  .beta-counter { margin-top: 1.25rem; font-family: var(--font-mono); font-size: 0.85rem; color: var(--lime); display: none; align-items: center; gap: 0.5em; }
-  .beta-counter.is-visible { display: inline-flex; }
-  .beta-counter::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 8px var(--lime); }
 
   .beta-form { display: flex; flex-direction: column; gap: 0.9rem; }
   .field label {
@@ -625,34 +622,32 @@
         <div class="beta-copy">
           <h3 style="font-size:1.2rem;">Cómo funciona</h3>
           <p>Dejá tu correo y te vamos agregando a las pruebas cerradas a medida que se abren cupos en cada título. Sin spam: solo te escribimos cuando hay algo nuevo para probar.</p>
-          <p class="beta-counter" id="beta-counter"></p>
         </div>
 
-        <artifact-local>
-          <form class="beta-form" id="beta-form" novalidate>
-            <div class="field">
-              <label for="beta-email">Correo electrónico</label>
-              <input id="beta-email" name="email" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required>
-            </div>
-            <div class="field">
-              <label for="beta-app">Qué te interesa probar</label>
-              <select id="beta-app" name="app">
-                <option value="Cualquiera">Cualquiera de las anteriores</option>
-                <option value="Acelerex Blocks">Acelerex Blocks</option>
-                <option value="AceloroidX">AceloroidX</option>
-                <option value="Acelerex Task">Acelerex Task</option>
-              </select>
-            </div>
-            <button class="btn btn-primary" type="submit" id="beta-submit">Unirme a la beta</button>
-            <p class="form-status" id="beta-status" role="status" aria-live="polite"></p>
-          </form>
-        </artifact-local>
+        <form class="beta-form" id="beta-form" novalidate>
+          <input type="hidden" name="access_key" value="8e8391e1-1be4-43c8-a026-5c8ac0367809">
+          <input type="hidden" name="subject" value="Nuevo tester — Acelerex Digital Labs">
+          <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off">
+          <div class="field">
+            <label for="beta-email">Correo electrónico</label>
+            <input id="beta-email" name="email" type="email" placeholder="tucorreo@ejemplo.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="beta-app">Qué te interesa probar</label>
+            <select id="beta-app" name="Interesado en">
+              <option value="Cualquiera de las anteriores">Cualquiera de las anteriores</option>
+              <option value="Acelerex Blocks">Acelerex Blocks</option>
+              <option value="AceloroidX">AceloroidX</option>
+              <option value="Acelerex Task">Acelerex Task</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" type="submit" id="beta-submit">Unirme a la beta</button>
+          <p class="form-status" id="beta-status" role="status" aria-live="polite"></p>
+        </form>
       </div>
     </div>
   </section>
 </main>
-
-<ul id="signup-list" hidden></ul>
 
 <footer>
   <div class="wrap">
@@ -681,35 +676,6 @@
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   }
 
-  var artifactApiPromise = null;
-  function getArtifact() {
-    if (!artifactApiPromise) {
-      artifactApiPromise = (async function () {
-        try {
-          if (!window.claude || !window.claude.use) return null;
-          var api = await window.claude.use("artifact");
-          return api || null;
-        } catch (e) {
-          return null;
-        }
-      })();
-    }
-    return artifactApiPromise;
-  }
-
-  function updateCounter() {
-    var list = document.getElementById("signup-list");
-    var counter = document.getElementById("beta-counter");
-    if (!list || !counter) return;
-    var n = list.children.length;
-    if (n > 0) {
-      counter.textContent = n === 1 ? "1 persona ya se sumó a la lista" : (n + " personas ya se sumaron a la lista");
-      counter.classList.add("is-visible");
-    } else {
-      counter.classList.remove("is-visible");
-    }
-  }
-
   function setStatus(state, text) {
     var el = document.getElementById("beta-status");
     if (!el) return;
@@ -717,25 +683,13 @@
     el.textContent = text || "";
   }
 
-  function showFallback() {
-    var status = document.getElementById("beta-status");
-    if (!status) return;
-    status.dataset.state = "fallback";
-    status.innerHTML = 'El formulario no está disponible desde esta vista. Escribinos directo a <a href="mailto:acelerexdigitallabs@gmail.com?subject=Beta%20testers">acelerexdigitallabs@gmail.com</a> con el juego o app que te interesa.';
-    var submit = document.getElementById("beta-submit");
-    if (submit) submit.setAttribute("disabled", "disabled");
-  }
-
   document.addEventListener("DOMContentLoaded", function () {
-    updateCounter();
-
     var form = document.getElementById("beta-form");
     if (!form) return;
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
       var emailInput = document.getElementById("beta-email");
-      var appSelect = document.getElementById("beta-app");
       var submit = document.getElementById("beta-submit");
       var email = (emailInput.value || "").trim();
 
@@ -748,39 +702,25 @@
       submit.setAttribute("disabled", "disabled");
       setStatus("", "Enviando...");
 
-      var api = await getArtifact();
-      if (!api) {
-        showFallback();
-        return;
-      }
-
       try {
-        await api.sync(function () {
-          var list = document.getElementById("signup-list");
-          var li = document.createElement("li");
-          li.dataset.email = email;
-          li.dataset.app = appSelect.value;
-          li.dataset.date = new Date().toISOString();
-          li.textContent = email + " — " + appSelect.value;
-          list.appendChild(li);
+        var payload = Object.fromEntries(new FormData(form));
+        var res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "Accept": "application/json" },
+          body: JSON.stringify(payload)
         });
-        setStatus("ok", "Listo, te anotamos. Te vamos a escribir cuando abramos cupos.");
-        updateCounter();
-        form.reset();
-        submit.removeAttribute("disabled");
-      } catch (err) {
-        var code = err && err.code;
-        if (code === "not_writer" || code === "not_granted" || code === "capability_disabled" || code === "not_declared") {
-          showFallback();
+        var data = await res.json();
+        if (res.status === 200 && data.success) {
+          setStatus("ok", "Listo, te anotamos. Te vamos a escribir cuando abramos cupos.");
+          form.reset();
         } else {
           setStatus("err", "No se pudo enviar. Probá de nuevo en un momento.");
-          submit.removeAttribute("disabled");
         }
+      } catch (err) {
+        setStatus("err", "No se pudo enviar. Revisá tu conexión e intentá de nuevo.");
+      } finally {
+        submit.removeAttribute("disabled");
       }
-    });
-
-    document.addEventListener("claude:edit", function () {
-      updateCounter();
     });
   });
 })();
