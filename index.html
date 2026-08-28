@@ -1024,10 +1024,10 @@
 
     function loadGames() {
       list.innerHTML = '<li class="tester-item--loading">Cargando juegos…</li>';
-      fetch("games.json")
+      fetch("games.json", { cache: "no-store" })
         .then(function (res) { return res.json(); })
         .then(function (data) {
-          gamesCache = data.filter(function (g) { return g.enabled !== false; });
+          gamesCache = data.filter(function (g) { return g.enabled !== false && g.status !== "published"; });
           renderList(gamesCache);
         })
         .catch(function () {
