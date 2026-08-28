@@ -7,7 +7,7 @@
     "category": "puzzle",
     "enabled": true,
     "order": 0,
-    "status": "published"
+    "status": "beta"
   },
   {
     "id": "com.acelerexdigitallabs.snakemaingame",
@@ -27,6 +27,6 @@
     "category": "arcade",
     "enabled": true,
     "order": 2,
-    "status": "published"
+    "status": "beta"
   }
 ]
