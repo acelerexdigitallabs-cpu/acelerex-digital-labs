@@ -28,5 +28,15 @@
     "enabled": true,
     "order": 2,
     "status": "beta"
+  },
+  {
+    "id": "com.acelerex.gridxer",
+    "name": "Gridxer",
+    "url": "https://play.google.com/store/apps/details?id=com.acelerex.gridxer",
+    "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/gridxer.png",
+    "category": "arcade",
+    "enabled": true,
+    "order": 3,
+    "status": "beta"
   }
 ]
