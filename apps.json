@@ -1,0 +1,12 @@
+[
+  {
+    "id": "com.acelerex.acelerextask",
+    "name": "Acelerex Task",
+    "url": "https://play.google.com/store/apps/details?id=com.acelerex.acelerextask",
+    "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/acelerextask.png",
+    "category": "productivity",
+    "enabled": true,
+    "order": 0,
+    "status": "beta"
+  }
+]

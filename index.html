@@ -264,6 +264,13 @@
     width: 100%;
   }
   .btn-screen:hover { background: #262a38; }
+  .btn-screen-ghost {
+    background: transparent;
+    color: var(--ink-screen-dim);
+    border-color: rgba(18,20,28,0.24);
+    width: 100%;
+  }
+  .btn-screen-ghost:hover { border-color: rgba(18,20,28,0.4); color: var(--ink-screen); }
   .btn[disabled] { opacity: 0.55; cursor: not-allowed; transform: none !important; }
 
   .badge {
@@ -497,6 +504,29 @@
     color: var(--ink-dim);
     font-size: 0.85rem;
   }
+  .tester-modal__tabs {
+    display: flex;
+    gap: 0.4rem;
+    padding: 0 1.5rem;
+    margin-top: 1.1rem;
+  }
+  .tester-modal__tab {
+    flex: 1;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--ink-dim);
+    background: var(--void-3);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.55em 0.8em;
+    cursor: pointer;
+    transition: color .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .tester-modal__tab:hover { color: var(--ink); }
+  .tester-modal__tab.is-active { color: var(--brand-ink); background: var(--brand); border-color: var(--brand); }
   .tester-modal__list {
     list-style: none;
     margin: 1rem 0 0;
@@ -791,6 +821,7 @@
           <div class="phone-card__footer">
             <span class="badge badge-screen" style="align-self:flex-start;">Acceso anticipado</span>
             <a class="btn btn-screen" href="#beta">Solicitar acceso a la beta</a>
+            <button type="button" class="btn btn-screen-ghost js-open-tester-modal" data-tab="apps">Soy tester</button>
             <span class="pkg-tag">com.acelerex.acelerextask</span>
           </div>
         </article>
@@ -847,7 +878,11 @@
       <h3 id="testerModalTitle">Acceso para testers</h3>
       <button type="button" class="tester-modal__close" id="testerModalClose" aria-label="Cerrar">&times;</button>
     </div>
-    <p class="tester-modal__lede">Elegí el juego y entrá directo a tu build de pruebas, o copiá el enlace para abrirlo después. Si no te deja instalar, todavía no figurás en la lista de testers — completá el formulario y te agregamos.</p>
+    <p class="tester-modal__lede">Elegí el título y entrá directo a tu build de pruebas, o copiá el enlace para abrirlo después. Si no te deja instalar, todavía no figurás en la lista de testers — completá el formulario y te agregamos.</p>
+    <div class="tester-modal__tabs" role="tablist" aria-label="Categoría">
+      <button type="button" class="tester-modal__tab is-active" id="testerTabGames" role="tab" aria-selected="true" data-source="games.json">Juegos</button>
+      <button type="button" class="tester-modal__tab" id="testerTabApps" role="tab" aria-selected="false" data-source="apps.json">Apps</button>
+    </div>
     <ul class="tester-modal__list" id="testerModalList"></ul>
     <p class="tester-modal__status" id="testerModalStatus" role="status" aria-live="polite"></p>
   </div>
@@ -952,26 +987,28 @@
     var list = document.getElementById("testerModalList");
     var statusEl = document.getElementById("testerModalStatus");
     var closeBtn = document.getElementById("testerModalClose");
+    var tabs = document.querySelectorAll(".tester-modal__tab");
     var openButtons = document.querySelectorAll(".js-open-tester-modal");
     if (!overlay || !list || !closeBtn || openButtons.length === 0) return;
 
     var lastFocused = null;
-    var gamesCache = null;
+    var cache = {};
+    var activeSource = "games.json";
     var COPY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L12.5 19.5"/></svg>';
 
     function setStatus(text) {
       statusEl.textContent = text || "";
     }
 
-    function renderList(games) {
+    function renderList(items) {
       list.innerHTML = "";
-      games.forEach(function (game) {
+      items.forEach(function (item) {
         var li = document.createElement("li");
         li.className = "tester-item";
 
         var icon = document.createElement("img");
         icon.className = "tester-item__icon";
-        icon.src = game.icon;
+        icon.src = item.icon;
         icon.alt = "";
         icon.width = 40;
         icon.height = 40;
@@ -980,10 +1017,10 @@
         info.className = "tester-item__info";
         var name = document.createElement("span");
         name.className = "tester-item__name";
-        name.textContent = game.name;
+        name.textContent = item.name;
         var pkg = document.createElement("span");
         pkg.className = "tester-item__pkg";
-        pkg.textContent = game.id;
+        pkg.textContent = item.id;
         info.appendChild(name);
         info.appendChild(pkg);
 
@@ -992,7 +1029,7 @@
 
         var go = document.createElement("a");
         go.className = "tester-item__go";
-        go.href = game.url;
+        go.href = item.url;
         go.target = "_blank";
         go.rel = "noopener";
         go.textContent = "Ir";
@@ -1000,12 +1037,12 @@
         var copy = document.createElement("button");
         copy.type = "button";
         copy.className = "tester-item__copy";
-        copy.setAttribute("aria-label", "Copiar URL de " + game.name);
+        copy.setAttribute("aria-label", "Copiar URL de " + item.name);
         copy.innerHTML = COPY_ICON;
         copy.addEventListener("click", async function () {
           try {
-            await navigator.clipboard.writeText(game.url);
-            setStatus("Enlace de " + game.name + " copiado.");
+            await navigator.clipboard.writeText(item.url);
+            setStatus("Enlace de " + item.name + " copiado.");
             copy.classList.add("is-copied");
             setTimeout(function () { copy.classList.remove("is-copied"); }, 1600);
           } catch (err) {
@@ -1022,31 +1059,41 @@
       });
     }
 
-    function loadGames() {
-      list.innerHTML = '<li class="tester-item--loading">Cargando juegos…</li>';
-      fetch("games.json", { cache: "no-store" })
+    function loadSource(source) {
+      list.innerHTML = '<li class="tester-item--loading">Cargando…</li>';
+      setStatus("");
+      fetch(source, { cache: "no-store" })
         .then(function (res) { return res.json(); })
         .then(function (data) {
-          gamesCache = data.filter(function (g) { return g.enabled !== false && g.status !== "published"; });
-          renderList(gamesCache);
+          cache[source] = data.filter(function (it) { return it.enabled !== false && it.status !== "published"; });
+          if (activeSource === source) renderList(cache[source]);
         })
         .catch(function () {
           list.innerHTML = "";
-          setStatus("No se pudo cargar la lista de juegos. Probá de nuevo en un momento.");
+          setStatus("No se pudo cargar la lista. Probá de nuevo en un momento.");
         });
     }
 
-    function openModal() {
+    function showSource(source) {
+      activeSource = source;
+      tabs.forEach(function (tab) {
+        var isActive = tab.dataset.source === source;
+        tab.classList.toggle("is-active", isActive);
+        tab.setAttribute("aria-selected", isActive ? "true" : "false");
+      });
+      if (cache[source]) {
+        renderList(cache[source]);
+      } else {
+        loadSource(source);
+      }
+    }
+
+    function openModal(source) {
       lastFocused = document.activeElement;
       overlay.hidden = false;
       document.body.style.overflow = "hidden";
-      setStatus("");
       closeBtn.focus();
-      if (gamesCache) {
-        renderList(gamesCache);
-      } else {
-        loadGames();
-      }
+      showSource(source || "games.json");
     }
 
     function closeModal() {
@@ -1056,7 +1103,12 @@
     }
 
     openButtons.forEach(function (btn) {
-      btn.addEventListener("click", openModal);
+      btn.addEventListener("click", function () {
+        openModal(btn.dataset.tab === "apps" ? "apps.json" : "games.json");
+      });
+    });
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () { showSource(tab.dataset.source); });
     });
     closeBtn.addEventListener("click", closeModal);
     overlay.addEventListener("click", function (e) {
