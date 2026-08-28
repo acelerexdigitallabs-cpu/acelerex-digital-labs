@@ -48,6 +48,7 @@
     --ink-screen: #12141c;
     --ink-screen-dim: #565e73;
     --good: #4ade80;
+    --amber: #ffb020;
     --font-display: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
     --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
     --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
@@ -279,7 +280,15 @@
   }
   .badge-live { background: rgba(74,222,128,0.13); color: var(--good); border: 1px solid rgba(74,222,128,0.35); }
   .badge-live::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--good); box-shadow: 0 0 6px var(--good); }
-  .badge-beta { background: rgba(233,236,245,0.06); color: var(--ink-dim); border: 1px solid var(--line); }
+  .badge-beta {
+    background: rgba(10,13,20,0.78);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: var(--amber);
+    border: 1px solid rgba(255,176,32,0.5);
+    font-weight: 700;
+  }
+  .badge-beta::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 6px var(--amber); }
   .badge-screen { background: rgba(18,20,28,0.08); color: var(--ink-screen-dim); border: 1px solid rgba(18,20,28,0.14); }
 
   /* ---------- hero ---------- */
@@ -422,6 +431,128 @@
     flex-wrap: wrap;
   }
   .pkg-tag { font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-faint); }
+  .game-card__actions { display: flex; align-items: stretch; gap: 0.5rem; flex-wrap: nowrap; width: 100%; }
+  .game-card__actions .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.7em 0.6em;
+    font-size: 0.72rem;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  /* ---------- tester modal ---------- */
+  .tester-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem;
+    background: rgba(6,8,13,0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .tester-modal-overlay[hidden] { display: none; }
+  .tester-modal {
+    width: 100%;
+    max-width: 440px;
+    max-height: min(600px, 85vh);
+    display: flex;
+    flex-direction: column;
+    background: var(--void-2);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: 0 24px 60px -20px rgba(0,0,0,0.7);
+    overflow: hidden;
+  }
+  .tester-modal__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 1.5rem 0;
+  }
+  .tester-modal__head h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+  }
+  .tester-modal__close {
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    flex: none;
+    color: var(--ink-dim);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .tester-modal__close:hover { color: var(--ink); border-color: var(--brand-soft); }
+  .tester-modal__lede {
+    padding: 0.6rem 1.5rem 0;
+    color: var(--ink-dim);
+    font-size: 0.85rem;
+  }
+  .tester-modal__list {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0 0.5rem 0.5rem;
+    overflow-y: auto;
+  }
+  .tester-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+  }
+  .tester-item:hover { background: var(--void-3); }
+  .tester-item__icon { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; flex: none; }
+  .tester-item__info { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; flex: 1; }
+  .tester-item__name { font-weight: 700; font-size: 0.92rem; }
+  .tester-item__pkg { font-family: var(--font-mono); font-size: 0.68rem; color: var(--ink-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .tester-item__actions { display: flex; align-items: center; gap: 0.5rem; flex: none; }
+  .tester-item__go {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    color: var(--brand-ink);
+    background: var(--brand);
+    border-radius: 8px;
+    padding: 0.5em 0.9em;
+    transition: background 0.15s ease;
+  }
+  .tester-item__go:hover { background: var(--brand-soft); }
+  .tester-item__copy {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .tester-item__copy svg { width: 16px; height: 16px; }
+  .tester-item__copy:hover { border-color: var(--brand-soft); color: var(--brand-soft); }
+  .tester-item__copy.is-copied { border-color: var(--good); color: var(--good); }
+  .tester-item--loading { color: var(--ink-faint); font-size: 0.85rem; padding: 0.75rem 1rem; }
+  .tester-modal__status {
+    min-height: 1.2em;
+    padding: 0 1.5rem 1.25rem;
+    font-size: 0.8rem;
+    color: var(--good);
+  }
 
   /* ---------- apps (phone screens) ---------- */
   .apps { border-top: 1px solid var(--line-soft); }
@@ -606,7 +737,10 @@
             <p class="game-card__genre">Puzzle arcade</p>
             <p class="game-card__desc">Los bloques de colores caen sin parar: encajalos, sumá puntos y no dejes que se acumulen. Directo al grano, con tu mejor puntaje guardado en el dispositivo.</p>
             <div class="game-card__footer">
-              <a class="btn btn-ghost" href="#beta">Solicitar acceso a la beta</a>
+              <div class="game-card__actions">
+                <a class="btn btn-ghost" href="#beta">Solicitar acceso a la beta</a>
+                <button type="button" class="btn btn-ghost js-open-tester-modal">Soy tester</button>
+              </div>
               <span class="pkg-tag">com.acelerex.acelerexblocks</span>
             </div>
           </div>
@@ -623,7 +757,10 @@
             <p class="game-card__genre">Rompe-bloques</p>
             <p class="game-card__desc">Controlá la pala, hacé rebotar la bola y destruí cada ladrillo del tablero neón. Cuanto más lejos llegás, más rápido —y más intenso— se pone.</p>
             <div class="game-card__footer">
-              <a class="btn btn-ghost" href="#beta">Solicitar acceso a la beta</a>
+              <div class="game-card__actions">
+                <a class="btn btn-ghost" href="#beta">Solicitar acceso a la beta</a>
+                <button type="button" class="btn btn-ghost js-open-tester-modal">Soy tester</button>
+              </div>
               <span class="pkg-tag">com.acelerex.aceleroidX</span>
             </div>
           </div>
@@ -703,6 +840,18 @@
     </div>
   </section>
 </main>
+
+<div class="tester-modal-overlay" id="testerModalOverlay" hidden>
+  <div class="tester-modal" role="dialog" aria-modal="true" aria-labelledby="testerModalTitle">
+    <div class="tester-modal__head">
+      <h3 id="testerModalTitle">Acceso para testers</h3>
+      <button type="button" class="tester-modal__close" id="testerModalClose" aria-label="Cerrar">&times;</button>
+    </div>
+    <p class="tester-modal__lede">Elegí el juego y entrá directo a tu build de pruebas, o copiá el enlace para abrirlo después. Si no te deja instalar, todavía no figurás en la lista de testers — completá el formulario y te agregamos.</p>
+    <ul class="tester-modal__list" id="testerModalList"></ul>
+    <p class="tester-modal__status" id="testerModalStatus" role="status" aria-live="polite"></p>
+  </div>
+</div>
 
 <footer>
   <div class="wrap">
@@ -795,6 +944,126 @@
         header.classList.remove("is-open");
         toggle.setAttribute("aria-expanded", "false");
       });
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var overlay = document.getElementById("testerModalOverlay");
+    var list = document.getElementById("testerModalList");
+    var statusEl = document.getElementById("testerModalStatus");
+    var closeBtn = document.getElementById("testerModalClose");
+    var openButtons = document.querySelectorAll(".js-open-tester-modal");
+    if (!overlay || !list || !closeBtn || openButtons.length === 0) return;
+
+    var lastFocused = null;
+    var gamesCache = null;
+    var COPY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L12.5 19.5"/></svg>';
+
+    function setStatus(text) {
+      statusEl.textContent = text || "";
+    }
+
+    function renderList(games) {
+      list.innerHTML = "";
+      games.forEach(function (game) {
+        var li = document.createElement("li");
+        li.className = "tester-item";
+
+        var icon = document.createElement("img");
+        icon.className = "tester-item__icon";
+        icon.src = game.icon;
+        icon.alt = "";
+        icon.width = 40;
+        icon.height = 40;
+
+        var info = document.createElement("div");
+        info.className = "tester-item__info";
+        var name = document.createElement("span");
+        name.className = "tester-item__name";
+        name.textContent = game.name;
+        var pkg = document.createElement("span");
+        pkg.className = "tester-item__pkg";
+        pkg.textContent = game.id;
+        info.appendChild(name);
+        info.appendChild(pkg);
+
+        var actions = document.createElement("div");
+        actions.className = "tester-item__actions";
+
+        var go = document.createElement("a");
+        go.className = "tester-item__go";
+        go.href = game.url;
+        go.target = "_blank";
+        go.rel = "noopener";
+        go.textContent = "Ir";
+
+        var copy = document.createElement("button");
+        copy.type = "button";
+        copy.className = "tester-item__copy";
+        copy.setAttribute("aria-label", "Copiar URL de " + game.name);
+        copy.innerHTML = COPY_ICON;
+        copy.addEventListener("click", async function () {
+          try {
+            await navigator.clipboard.writeText(game.url);
+            setStatus("Enlace de " + game.name + " copiado.");
+            copy.classList.add("is-copied");
+            setTimeout(function () { copy.classList.remove("is-copied"); }, 1600);
+          } catch (err) {
+            setStatus("No se pudo copiar automáticamente. Mantené presionado el botón Ir para copiar el enlace.");
+          }
+        });
+
+        actions.appendChild(go);
+        actions.appendChild(copy);
+        li.appendChild(icon);
+        li.appendChild(info);
+        li.appendChild(actions);
+        list.appendChild(li);
+      });
+    }
+
+    function loadGames() {
+      list.innerHTML = '<li class="tester-item--loading">Cargando juegos…</li>';
+      fetch("games.json")
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          gamesCache = data.filter(function (g) { return g.enabled !== false; });
+          renderList(gamesCache);
+        })
+        .catch(function () {
+          list.innerHTML = "";
+          setStatus("No se pudo cargar la lista de juegos. Probá de nuevo en un momento.");
+        });
+    }
+
+    function openModal() {
+      lastFocused = document.activeElement;
+      overlay.hidden = false;
+      document.body.style.overflow = "hidden";
+      setStatus("");
+      closeBtn.focus();
+      if (gamesCache) {
+        renderList(gamesCache);
+      } else {
+        loadGames();
+      }
+    }
+
+    function closeModal() {
+      overlay.hidden = true;
+      document.body.style.overflow = "";
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }
+
+    openButtons.forEach(function (btn) {
+      btn.addEventListener("click", openModal);
+    });
+    closeBtn.addEventListener("click", closeModal);
+    overlay.addEventListener("click", function (e) {
+      if (e.target === overlay) closeModal();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !overlay.hidden) closeModal();
     });
   });
 })();
