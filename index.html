@@ -390,6 +390,7 @@
   .game-card[data-accent="cyan"] { --card-glow: rgba(51,230,230,0.45); }
   .game-card[data-accent="magenta"] { --card-glow: rgba(255,92,214,0.45); }
   .game-card[data-accent="amber"] { --card-glow: rgba(255,176,32,0.45); }
+  .game-card[data-accent="violet"] { --card-glow: rgba(140,92,255,0.45); }
   .game-card:hover { border-color: var(--card-glow); box-shadow: 0 0 0 1px var(--card-glow), 0 20px 40px -20px rgba(0,0,0,0.7); }
 
   .game-card__art {
@@ -736,7 +737,7 @@
       <div class="section-head">
         <span class="eyebrow">Sala de arcade</span>
         <h2>Los juegos</h2>
-        <p>Clásicos reinventados con un toque neón. Snake Game Main ya está publicado — Blocks, AceloroidX y Gridxer siguen en pruebas cerradas, y podés sumarte para jugarlos antes que nadie.</p>
+        <p>Clásicos reinventados con un toque neón. Snake Game Main ya está publicado — Blocks, AceloroidX, Gridxer y FighterDefenceAx siguen en pruebas cerradas, y podés sumarte para jugarlos antes que nadie.</p>
       </div>
 
       <div class="game-grid">
@@ -816,6 +817,26 @@
             </div>
           </div>
         </article>
+
+        <!-- FighterDefenceAx -->
+        <article class="game-card" data-accent="violet">
+          <div class="game-card__art" style="background-image:url(icons/banners/fighterdefenceax-banner.png)">
+            <span class="badge badge-beta game-card__badge">Acceso anticipado</span>
+            <span class="game-card__icon"><img src="icons/fighterdefenceax.png" alt="" width="56" height="56"></span>
+          </div>
+          <div class="game-card__body">
+            <h3 class="game-card__title">FighterDefenceAx</h3>
+            <p class="game-card__genre">Shooter arcade</p>
+            <p class="game-card__desc">Tomá el mando de una nave defensora e interceptá oleadas continuas de fuerzas enemigas antes de que rompan tu línea de defensa. Controles táctiles precisos, patrones de ataque dinámicos y dificultad creciente con estética retro espacial.</p>
+            <div class="game-card__footer">
+              <div class="game-card__actions">
+                <a class="btn btn-ghost" href="#beta">Solicitar acceso a la beta</a>
+                <button type="button" class="btn btn-ghost js-open-tester-modal">Soy tester</button>
+              </div>
+              <span class="pkg-tag">com.acelerex.fighterdefenceax</span>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -883,6 +904,7 @@
               <option value="Acelerex Blocks">Acelerex Blocks</option>
               <option value="AceloroidX">AceloroidX</option>
               <option value="Gridxer">Gridxer</option>
+              <option value="FighterDefenceAx">FighterDefenceAx</option>
               <option value="Acelerex Task">Acelerex Task</option>
             </select>
           </div>
