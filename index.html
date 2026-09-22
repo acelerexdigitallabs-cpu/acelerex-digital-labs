@@ -472,6 +472,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     text-align: center;
     line-height: 1.25;
   }
+  .game-card__copy {
+    flex: none;
+    width: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink-dim);
+    cursor: pointer;
+    transition: border-color .15s ease, color .15s ease;
+  }
+  .game-card__copy svg { width: 16px; height: 16px; }
+  .game-card__copy:hover { border-color: var(--brand-soft); color: var(--brand-soft); }
+  .game-card__copy.is-copied { border-color: var(--good); color: var(--good); }
 
   /* ---------- game search / filters / pager ---------- */
   .game-toolbar {
@@ -1064,6 +1080,28 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       return id.slice(0, idx) + "​" + id.slice(idx);
     }
 
+    var COPY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"/><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07L12.5 19.5"/></svg>';
+    var CHECK_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+
+    function makeCopyLinkButton(game) {
+      var copyBtn = document.createElement("button");
+      copyBtn.type = "button";
+      copyBtn.className = "game-card__copy";
+      copyBtn.innerHTML = COPY_ICON;
+      copyBtn.setAttribute("aria-label", "Copiar enlace de " + game.name);
+      copyBtn.addEventListener("click", function () {
+        navigator.clipboard.writeText(game.url).then(function () {
+          copyBtn.innerHTML = CHECK_ICON;
+          copyBtn.classList.add("is-copied");
+          setTimeout(function () {
+            copyBtn.innerHTML = COPY_ICON;
+            copyBtn.classList.remove("is-copied");
+          }, 1600);
+        });
+      });
+      return copyBtn;
+    }
+
     function buildCard(game) {
       var isPublished = game.status === "published";
 
@@ -1109,13 +1147,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       footer.className = "game-card__footer";
 
       if (isPublished) {
+        var publishedActions = document.createElement("div");
+        publishedActions.className = "game-card__actions";
+
         var download = document.createElement("a");
         download.className = "btn btn-primary";
         download.href = game.url;
         download.target = "_blank";
         download.rel = "noopener";
         download.textContent = "Descargar en Google Play";
-        footer.appendChild(download);
+
+        publishedActions.appendChild(download);
+        publishedActions.appendChild(makeCopyLinkButton(game));
+        footer.appendChild(publishedActions);
       } else {
         var actions = document.createElement("div");
         actions.className = "game-card__actions";
