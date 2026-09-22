@@ -1,12 +1,22 @@
 [
   {
+    "id": "com.acelerex.sudokugame",
+    "name": "Sudoku",
+    "url": "https://play.google.com/apps/testing/com.acelerex.sudokugame",
+    "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/sudokugame.png",
+    "category": "puzzle",
+    "enabled": true,
+    "order": 0,
+    "status": "beta"
+  },
+  {
     "id": "com.acelerex.acelerexblocks",
     "name": "Acelerex Blocks",
     "url": "https://play.google.com/store/apps/details?id=com.acelerex.acelerexblocks",
     "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/acelerexblocks.png",
     "category": "puzzle",
     "enabled": true,
-    "order": 0,
+    "order": 1,
     "status": "beta"
   },
   {
@@ -16,7 +26,7 @@
     "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/snakemaingame.png",
     "category": "arcade",
     "enabled": true,
-    "order": 1,
+    "order": 2,
     "status": "published"
   },
   {
@@ -26,7 +36,7 @@
     "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/aceleroidx.png",
     "category": "arcade",
     "enabled": true,
-    "order": 2,
+    "order": 3,
     "status": "beta"
   },
   {
@@ -36,7 +46,7 @@
     "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/gridxer.png",
     "category": "arcade",
     "enabled": true,
-    "order": 3,
+    "order": 4,
     "status": "beta"
   },
   {
@@ -46,7 +56,7 @@
     "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/fighterdefenceax.png",
     "category": "arcade",
     "enabled": true,
-    "order": 4,
+    "order": 5,
     "status": "beta"
   },
   {
@@ -56,7 +66,7 @@
     "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/atomixblitz.png",
     "category": "puzzle",
     "enabled": true,
-    "order": 5,
+    "order": 6,
     "status": "beta"
   }
 ]

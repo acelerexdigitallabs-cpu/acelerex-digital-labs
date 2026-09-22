@@ -412,6 +412,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .game-card[data-accent="amber"] { --card-glow: rgba(255,176,32,0.45); }
   .game-card[data-accent="violet"] { --card-glow: rgba(140,92,255,0.45); }
   .game-card[data-accent="teal"] { --card-glow: rgba(45,212,191,0.45); }
+  .game-card[data-accent="indigo"] { --card-glow: rgba(99,102,241,0.45); }
   .game-card:hover { border-color: var(--card-glow); box-shadow: 0 0 0 1px var(--card-glow), 0 20px 40px -20px rgba(0,0,0,0.7); }
 
   .game-card__art {
@@ -762,7 +763,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="section-head">
         <span class="eyebrow">Sala de arcade</span>
         <h2>Los juegos</h2>
-        <p>Clásicos reinventados con un toque neón. Snake Game Main ya está publicado — Blocks, AceloroidX, Gridxer, FighterDefenceAx y Atomix Blitz siguen en pruebas cerradas, y podés sumarte para jugarlos antes que nadie.</p>
+        <p>Clásicos reinventados con un toque neón. Snake Game Main ya está publicado — Blocks, AceloroidX, Gridxer, FighterDefenceAx, Atomix Blitz y Sudoku siguen en pruebas cerradas, y podés sumarte para jugarlos antes que nadie.</p>
       </div>
 
       <div class="game-grid">
@@ -882,6 +883,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
             </div>
           </div>
         </article>
+
+        <!-- Sudoku -->
+        <article class="game-card" data-accent="indigo">
+          <div class="game-card__art" style="background-image:url(icons/banners/sudokugame-banner.png)">
+            <span class="badge badge-beta game-card__badge">Acceso anticipado</span>
+            <span class="game-card__icon"><img src="icons/sudokugame.png" alt="" width="56" height="56"></span>
+          </div>
+          <div class="game-card__body">
+            <h3 class="game-card__title">Sudoku</h3>
+            <p class="game-card__genre">Puzzle</p>
+            <p class="game-card__desc">El clásico sudoku sin distracciones: elegí la dificultad, anotá tus candidatos y resolvé el tablero a tu ritmo. Pistas cuando las necesités y tu progreso guardado para retomar cuando quieras.</p>
+            <div class="game-card__footer">
+              <div class="game-card__actions">
+                <a class="btn btn-ghost" href="#beta">Solicitar acceso a la beta</a>
+                <button type="button" class="btn btn-ghost js-open-tester-modal">Soy tester</button>
+              </div>
+              <span class="pkg-tag">com.acelerex.sudokugame</span>
+            </div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -951,6 +972,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               <option value="Gridxer">Gridxer</option>
               <option value="FighterDefenceAx">FighterDefenceAx</option>
               <option value="Atomix Blitz">Atomix Blitz</option>
+              <option value="Sudoku">Sudoku</option>
               <option value="Acelerex Task">Acelerex Task</option>
             </select>
           </div>
