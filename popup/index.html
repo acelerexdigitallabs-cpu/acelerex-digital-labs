@@ -188,22 +188,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 20px;
     margin-top: 8px;
     padding-top: 12px;
     border-top: 1px solid var(--border-subtle);
-    background: none;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    cursor: pointer;
   }
-  .footer img {
+  .footer-link {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .footer-link img,
+  .footer-link svg {
     width: 16px;
     height: 16px;
     margin-right: 6px;
     opacity: 0.8;
   }
-  .footer span {
+  .footer-link span {
     color: var(--text-muted);
     font-size: 12px;
   }
@@ -225,16 +230,23 @@
   <div class="loading" id="js-loading">Cargando…</div>
   <div class="list" id="js-list" style="display:none;"></div>
 
-  <button class="footer" id="js-footer">
-    <img src="logo.png" alt="">
-    <span>acelerexdigitallabs-cpu.github.io/acelerex-digital-labs</span>
-  </button>
+  <div class="footer">
+    <button class="footer-link" id="js-footer">
+      <img src="logo.png" alt="">
+      <span id="js-footer-label">Sitio web</span>
+    </button>
+    <button class="footer-link" id="js-footer-play">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.5 3.5c-.3.3-.5.7-.5 1.2v14.6c0 .5.2.9.5 1.2l.1.1L13 12l-8.4-8.4-.1-.1zM16 12l2.7-2.7-8.8-5.1c-.5-.3-1-.3-1.4-.1L16 12zm-7.5 7.9c.4.2.9.2 1.4-.1l8.8-5.1L16 12l-7.5 7.9zM19.5 9.9L17.1 12l2.4 2.1c.7-.5 1-1.3 1-2.1s-.3-1.6-1-2.1z"/></svg>
+      <span id="js-footer-play-label">Google Play</span>
+    </button>
+  </div>
 
 <script>
 (function () {
   var GAMES_JSON_URL = 'https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/games.json';
   var SITE_URL = 'https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/';
   var BETA_FORM_URL = SITE_URL + '#beta';
+  var PLAY_STORE_URL = 'https://play.google.com/store/apps/developer?id=Acelerex+Digital+Labs';
 
   var FALLBACK_GAMES = [
     {
@@ -271,7 +283,9 @@
       bannerText: 'Algunos juegos están en beta.',
       bannerCta: 'Sumate a la prueba',
       loading: 'Cargando…',
-      empty: 'No hay más juegos por ahora.'
+      empty: 'No hay más juegos por ahora.',
+      website: 'Sitio web',
+      googlePlay: 'Google Play'
     },
     en: {
       title: 'More games',
@@ -280,7 +294,9 @@
       bannerText: 'Some games are in beta.',
       bannerCta: 'Join the trial',
       loading: 'Loading…',
-      empty: 'No more games right now.'
+      empty: 'No more games right now.',
+      website: 'Website',
+      googlePlay: 'Google Play'
     }
   };
 
@@ -329,10 +345,15 @@
   document.getElementById('js-loading').textContent = t.loading;
   document.getElementById('js-banner-text').textContent = t.bannerText;
   document.getElementById('js-banner-cta').textContent = t.bannerCta;
+  document.getElementById('js-footer-label').textContent = t.website;
+  document.getElementById('js-footer-play-label').textContent = t.googlePlay;
 
   document.getElementById('js-close').addEventListener('click', closeModal);
   document.getElementById('js-footer').addEventListener('click', function () {
     openExternal(SITE_URL);
+  });
+  document.getElementById('js-footer-play').addEventListener('click', function () {
+    openExternal(PLAY_STORE_URL);
   });
   document.getElementById('js-banner-cta').addEventListener('click', function () {
     openExternal(BETA_FORM_URL);
