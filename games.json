@@ -2,7 +2,7 @@
   {
     "id": "com.acelerex.sudokugame",
     "name": "Sudoku",
-    "url": "https://play.google.com/apps/testing/com.acelerex.sudokugame",
+    "url": "https://play.google.com/store/apps/details?id=com.acelerex.sudokugame",
     "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/sudokugame.png",
     "category": "puzzle",
     "enabled": true,
