@@ -10,7 +10,7 @@
     "accent": "lime",
     "desc": "Revive la culebrita clásica con un giro retro: pantalla LCD verde, controles para una sola mano y bordes envolventes. Superá 10 niveles con obstáculos y desbloqueá el modo sin fin para perseguir tu récord.",
     "enabled": true,
-    "order": 0,
+    "order": 1,
     "status": "published"
   },
   {
@@ -24,7 +24,7 @@
     "accent": "cyan",
     "desc": "Los bloques de colores caen sin parar: encajalos, sumá puntos y no dejes que se acumulen. Directo al grano, con tu mejor puntaje guardado en el dispositivo.",
     "enabled": true,
-    "order": 1,
+    "order": 2,
     "status": "beta"
   },
   {
@@ -38,7 +38,7 @@
     "accent": "magenta",
     "desc": "Controlá la pala, hacé rebotar la bola y destruí cada ladrillo del tablero neón. Cuanto más lejos llegás, más rápido —y más intenso— se pone.",
     "enabled": true,
-    "order": 2,
+    "order": 3,
     "status": "beta"
   },
   {
@@ -52,7 +52,7 @@
     "accent": "amber",
     "desc": "Cruzá el tráfico esquivando vehículos y obstáculos en tiempo real: calculá el momento justo y avanzá paso a paso sin chocar. Fácil de jugar, difícil de dominar.",
     "enabled": true,
-    "order": 3,
+    "order": 4,
     "status": "beta"
   },
   {
@@ -66,7 +66,7 @@
     "accent": "violet",
     "desc": "Tomá el mando de una nave defensora e interceptá oleadas continuas de fuerzas enemigas antes de que rompan tu línea de defensa. Controles táctiles precisos, patrones de ataque dinámicos y dificultad creciente con estética retro espacial.",
     "enabled": true,
-    "order": 4,
+    "order": 5,
     "status": "beta"
   },
   {
@@ -80,7 +80,7 @@
     "accent": "teal",
     "desc": "Apuntá y disparás átomos desde el cañón inferior para combinar 3 o más iguales y hacerlos explotar. Usá los rebotes en las paredes para alcanzar ángulos imposibles y desatá reacciones en cadena que hacen caer racimos enteros por gravedad.",
     "enabled": true,
-    "order": 5,
+    "order": 6,
     "status": "beta"
   },
   {
@@ -94,7 +94,7 @@
     "accent": "indigo",
     "desc": "El clásico sudoku sin distracciones: elegí la dificultad, anotá tus candidatos y resolvé el tablero a tu ritmo. Pistas cuando las necesités y tu progreso guardado para retomar cuando quieras.",
     "enabled": true,
-    "order": 6,
+    "order": 0,
     "status": "beta"
   }
 ]
