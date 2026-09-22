@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Más juegos — Acelerex Digital Labs</title>
+<style>
+  :root {
+    --base: #05060F;
+    --panel: #12142A;
+    --elevated: #1B1E3A;
+    --border-subtle: #23264A;
+    --border-strong: #33386B;
+    --text-primary: #F2F4FF;
+    --text-secondary: #B9BEE0;
+    --text-muted: #6E739B;
+    --cyan: #00E5FF;
+    --amber: #FFB020;
+    --amber-bg: rgba(255, 176, 32, 0.12);
+    --amber-border: rgba(255, 176, 32, 0.5);
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--base);
+    color: var(--text-primary);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    height: 100%;
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    padding-top: max(16px, env(safe-area-inset-top));
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .header img {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    border-radius: 8px;
+  }
+  .header h1 {
+    flex: 1;
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+  }
+  .close-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--elevated);
+    color: var(--text-secondary);
+    font-size: 18px;
+    line-height: 1;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .banner {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    background: var(--elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-bottom: 10px;
+  }
+  .banner.is-visible { display: flex; }
+  .banner p {
+    flex: 1;
+    margin: 0;
+    font-size: 11.5px;
+    color: var(--text-muted);
+    line-height: 1.3;
+  }
+  .banner-cta {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: var(--amber);
+    font-size: 11.5px;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .loading {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  .list {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    background: var(--elevated);
+    border: 1px solid var(--border-subtle);
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .row-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    margin-right: 12px;
+    background: var(--base);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .row-body {
+    flex: 1;
+    min-width: 0;
+  }
+  .row-name {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .row-badge {
+    display: inline-block;
+    vertical-align: text-top;
+    font-size: 7px;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--amber);
+    border: 1px solid var(--amber-border);
+    border-radius: 4px;
+    padding: 1px 3.5px;
+    margin-left: 5px;
+  }
+  .play-btn {
+    background: var(--cyan);
+    color: var(--base);
+    border: none;
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+
+  .empty {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    padding: 40px 0;
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+    background: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    cursor: pointer;
+  }
+  .footer img {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    opacity: 0.8;
+  }
+  .footer span {
+    color: var(--text-muted);
+    font-size: 12px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <img src="logo.png" alt="">
+    <h1 id="js-title">Más juegos</h1>
+    <button class="close-btn" id="js-close" aria-label="Cerrar">×</button>
+  </div>
+
+  <div class="banner" id="js-banner">
+    <p id="js-banner-text"></p>
+    <button class="banner-cta" id="js-banner-cta"></button>
+  </div>
+
+  <div class="loading" id="js-loading">Cargando…</div>
+  <div class="list" id="js-list" style="display:none;"></div>
+
+  <button class="footer" id="js-footer">
+    <img src="logo.png" alt="">
+    <span>acelerexdigitallabs-cpu.github.io/acelerex-digital-labs</span>
+  </button>
+
+<script>
+(function () {
+  var GAMES_JSON_URL = 'https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/games.json';
+  var SITE_URL = 'https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/';
+  var BETA_FORM_URL = SITE_URL + '#beta';
+
+  var FALLBACK_GAMES = [
+    {
+      id: 'com.acelerex.acelerexblocks',
+      name: 'Acelerex Blocks',
+      url: 'https://play.google.com/store/apps/details?id=com.acelerex.acelerexblocks',
+      icon: 'https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/acelerexblocks.png',
+      order: 0,
+      status: 'beta'
+    },
+    {
+      id: 'com.acelerexdigitallabs.snakemaingame',
+      name: 'Snake Game Main',
+      url: 'https://play.google.com/store/apps/details?id=com.acelerexdigitallabs.snakemaingame',
+      icon: 'https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/snakemaingame.png',
+      order: 1,
+      status: 'published'
+    },
+    {
+      id: 'com.acelerex.aceleroidX',
+      name: 'AceleroidX',
+      url: 'https://play.google.com/store/apps/details?id=com.acelerex.aceleroidX',
+      icon: 'https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/aceleroidx.png',
+      order: 2,
+      status: 'beta'
+    }
+  ];
+
+  var STRINGS = {
+    es: {
+      title: 'Más juegos',
+      playLabel: 'Jugar',
+      betaBadge: 'Beta',
+      bannerText: 'Algunos juegos están en beta.',
+      bannerCta: 'Sumate a la prueba',
+      loading: 'Cargando…',
+      empty: 'No hay más juegos por ahora.'
+    },
+    en: {
+      title: 'More games',
+      playLabel: 'Play',
+      betaBadge: 'Beta',
+      bannerText: 'Some games are in beta.',
+      bannerCta: 'Join the trial',
+      loading: 'Loading…',
+      empty: 'No more games right now.'
+    }
+  };
+
+  function getParam(name) {
+    var params = new URLSearchParams(window.location.search);
+    return params.get(name);
+  }
+
+  // Fallback cuando el juego no manda ?locale=: se detecta el idioma del
+  // dispositivo (navigator.language funciona igual dentro de un WebView de
+  // React Native). Si el juego SÍ manda locale explícito, ese manda siempre
+  // — es más confiable que el idioma del sistema porque refleja el idioma
+  // real de la app (que el usuario pudo haber cambiado a mano).
+  function detectDeviceLocale() {
+    var langs = (navigator.languages && navigator.languages.length)
+      ? navigator.languages
+      : [navigator.language || ''];
+    for (var i = 0; i < langs.length; i++) {
+      if (/^en/i.test(langs[i])) return 'en';
+      if (/^es/i.test(langs[i])) return 'es';
+    }
+    return 'es';
+  }
+
+  var localeParam = getParam('locale');
+  var locale = (localeParam === 'en' || localeParam === 'es') ? localeParam : detectDeviceLocale();
+  var currentGameId = getParam('currentGameId') || '';
+  var t = STRINGS[locale];
+  document.documentElement.lang = locale;
+
+  function openExternal(url) {
+    if (window.ReactNativeWebView && typeof window.ReactNativeWebView.postMessage === 'function') {
+      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'OPEN_URL', url: url }));
+    } else {
+      window.open(url, '_blank', 'noopener');
+    }
+  }
+
+  function closeModal() {
+    if (window.ReactNativeWebView && typeof window.ReactNativeWebView.postMessage === 'function') {
+      window.ReactNativeWebView.postMessage(JSON.stringify({ type: 'CLOSE' }));
+    }
+  }
+
+  document.getElementById('js-title').textContent = t.title;
+  document.getElementById('js-loading').textContent = t.loading;
+  document.getElementById('js-banner-text').textContent = t.bannerText;
+  document.getElementById('js-banner-cta').textContent = t.bannerCta;
+
+  document.getElementById('js-close').addEventListener('click', closeModal);
+  document.getElementById('js-footer').addEventListener('click', function () {
+    openExternal(SITE_URL);
+  });
+  document.getElementById('js-banner-cta').addEventListener('click', function () {
+    openExternal(BETA_FORM_URL);
+  });
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function render(games) {
+    var list = games
+      .filter(function (g) { return g.enabled !== false && g.id !== currentGameId; })
+      .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
+
+    var hasBeta = list.some(function (g) { return g.status === 'beta'; });
+    document.getElementById('js-banner').classList.toggle('is-visible', hasBeta);
+
+    var listEl = document.getElementById('js-list');
+    document.getElementById('js-loading').style.display = 'none';
+    listEl.style.display = 'block';
+
+    if (list.length === 0) {
+      listEl.innerHTML = '<div class="empty">' + escapeHtml(t.empty) + '</div>';
+      return;
+    }
+
+    listEl.innerHTML = list.map(function (g) {
+      var badge = g.status === 'beta'
+        ? '<span class="row-badge">' + escapeHtml(t.betaBadge) + '</span>'
+        : '';
+      return (
+        '<div class="row">' +
+          '<img class="row-icon" src="' + escapeHtml(g.icon) + '" alt="">' +
+          '<div class="row-body">' +
+            '<div class="row-name">' + escapeHtml(g.name) + badge + '</div>' +
+          '</div>' +
+          '<button class="play-btn" data-url="' + escapeHtml(g.url) + '">' + escapeHtml(t.playLabel) + '</button>' +
+        '</div>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(listEl.querySelectorAll('.play-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        openExternal(btn.getAttribute('data-url'));
+      });
+    });
+  }
+
+  fetch(GAMES_JSON_URL)
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      render(Array.isArray(data) ? data : FALLBACK_GAMES);
+    })
+    .catch(function () {
+      render(FALLBACK_GAMES);
+    });
+})();
+</script>
+</body>
+</html>
