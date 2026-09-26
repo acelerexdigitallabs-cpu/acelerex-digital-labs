@@ -49,6 +49,11 @@ separados — no mezclar.
 | `CLOSE`    | —                  | el usuario toca el botón de cerrar (×)      |
 | `OPEN_URL` | `{ url: string }`  | el usuario toca "Jugar", el footer o el banner beta |
 
+## Tuto rápido
+
+Inicial: `?theme=dark|light&accentColor=RRGGBB` en la URL del WebView.
+Runtime: `webviewRef.postMessage(JSON.stringify({type:'THEME_UPDATE', theme, accentColor}))`.
+
 ## Extensión planeada: tema y color de acento (aún no implementado en `index.html`)
 
 Diseño acordado para cuando se codifique. Documentado ahora para que los juegos que
