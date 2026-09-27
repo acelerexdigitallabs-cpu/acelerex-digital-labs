@@ -11,6 +11,7 @@
     --elevated: #1B1E3A;
     --border-subtle: #23264A;
     --border-strong: #33386B;
+    --accent-border: var(--border-subtle);
     --text-primary: #F2F4FF;
     --text-secondary: #B9BEE0;
     --text-muted: #6E739B;
@@ -18,6 +19,21 @@
     --amber: #FFB020;
     --amber-bg: rgba(255, 176, 32, 0.12);
     --amber-border: rgba(255, 176, 32, 0.5);
+  }
+
+  :root[data-theme="light"] {
+    --base: #F3F4FA;
+    --panel: #FFFFFF;
+    --elevated: #FFFFFF;
+    --border-subtle: #E1E4F5;
+    --border-strong: #C7CCEB;
+    --text-primary: #12142A;
+    --text-secondary: #4A4F7A;
+    --text-muted: #8B90B8;
+    --cyan: #0090A8;
+    --amber: #B36A00;
+    --amber-bg: rgba(255, 176, 32, 0.15);
+    --amber-border: rgba(255, 176, 32, 0.6);
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -77,7 +93,7 @@
     align-items: center;
     gap: 8px;
     background: var(--elevated);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--accent-border);
     border-radius: 10px;
     padding: 6px 10px;
     margin-bottom: 10px;
@@ -124,7 +140,7 @@
     display: flex;
     align-items: center;
     background: var(--elevated);
-    border: 1px solid var(--border-subtle);
+    border: 1px solid var(--accent-border);
     border-radius: 14px;
     padding: 10px;
     margin-bottom: 8px;
@@ -191,7 +207,7 @@
     gap: 20px;
     margin-top: 8px;
     padding-top: 12px;
-    border-top: 1px solid var(--border-subtle);
+    border-top: 1px solid var(--accent-border);
   }
   .footer-link {
     display: flex;
@@ -326,6 +342,38 @@
   var currentGameId = getParam('currentGameId') || '';
   var t = STRINGS[locale];
   document.documentElement.lang = locale;
+
+  // Sin ?theme= ni THEME_UPDATE explícito, se queda dark siempre — así los
+  // juegos legacy que no mandan nada se ven idéntico a como estaban antes
+  // de esta extensión (no seguimos prefers-color-scheme como fallback).
+  function applyTheme(theme) {
+    if (theme === 'dark' || theme === 'light') {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
+  }
+
+  function applyAccentColor(color) {
+    if (typeof color !== 'string') return;
+    var hex = color.trim();
+    if (!/^#?[0-9A-Fa-f]{6}$/.test(hex)) return;
+    if (hex.charAt(0) !== '#') hex = '#' + hex;
+    document.documentElement.style.setProperty('--accent-border', hex);
+  }
+
+  applyTheme(getParam('theme'));
+  applyAccentColor(getParam('accentColor'));
+
+  function handleThemeMessage(event) {
+    var data = event.data;
+    if (typeof data === 'string') {
+      try { data = JSON.parse(data); } catch (e) { return; }
+    }
+    if (!data || data.type !== 'THEME_UPDATE') return;
+    applyTheme(data.theme);
+    applyAccentColor(data.accentColor);
+  }
+  window.addEventListener('message', handleThemeMessage);
+  document.addEventListener('message', handleThemeMessage);
 
   function openExternal(url) {
     if (window.ReactNativeWebView && typeof window.ReactNativeWebView.postMessage === 'function') {

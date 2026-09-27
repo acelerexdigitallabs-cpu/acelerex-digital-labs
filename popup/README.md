@@ -41,6 +41,8 @@ separados — no mezclar.
 | ---------------- | ----------------- | ------------------------------------------ |
 | `locale`         | `es` \| `en`       | detecta `navigator.language` del WebView    |
 | `currentGameId`  | id del juego       | ninguno (no se excluye ningún juego de la lista) |
+| `theme`          | `dark` \| `light`  | `dark` (siempre — no sigue `prefers-color-scheme`, así los juegos legacy no cambian) |
+| `accentColor`    | hex de 6 dígitos (`RRGGBB` o `#RRGGBB`) | paleta fija actual (bordes grises) |
 
 **postMessage saliente (popup → app, vía `onMessage`):**
 
@@ -49,24 +51,7 @@ separados — no mezclar.
 | `CLOSE`    | —                  | el usuario toca el botón de cerrar (×)      |
 | `OPEN_URL` | `{ url: string }`  | el usuario toca "Jugar", el footer o el banner beta |
 
-## Tuto rápido
-
-Inicial: `?theme=dark|light&accentColor=RRGGBB` en la URL del WebView.
-Runtime: `webviewRef.postMessage(JSON.stringify({type:'THEME_UPDATE', theme, accentColor}))`.
-
-## Extensión planeada: tema y color de acento (aún no implementado en `index.html`)
-
-Diseño acordado para cuando se codifique. Documentado ahora para que los juegos que
-integren desde hoy sepan qué esperar y puedan sumarlo sin esperar a un aviso aparte.
-
-**Query params nuevos (estado inicial, antes de que el WebView termine de cargar):**
-
-| Param         | Valores                        | Default si falta                                  |
-| ------------- | ------------------------------- | --------------------------------------------------- |
-| `theme`       | `dark` \| `light`                | detecta `prefers-color-scheme` del WebView; si tampoco hay, `dark` |
-| `accentColor` | hex de 6 dígitos (`RRGGBB` o `#RRGGBB`) | paleta fija actual (cyan) |
-
-**postMessage entrante nuevo (app → popup, para cambios en caliente sin recargar):**
+**postMessage entrante (app → popup, para cambios en caliente sin recargar):**
 
 ```json
 { "type": "THEME_UPDATE", "theme": "light", "accentColor": "#FF6B00" }
@@ -74,15 +59,20 @@ integren desde hoy sepan qué esperar y puedan sumarlo sin esperar a un aviso ap
 
 - Ambos campos son opcionales dentro del mensaje — mandá solo el que cambió.
 - `accentColor` inválido (no matchea `/^#?[0-9A-Fa-f]{6}$/`) se ignora sin romper el render.
-- El acento solo tiñe **bordes** (header, rows, footer) — el botón "Jugar" y el badge
+- El acento solo tiñe **bordes** (banner, rows, footer) — el botón "Jugar" y el badge
   "Beta" mantienen sus colores fijos (cyan/amber).
 - Se manda con `webviewRef.current.postMessage(JSON.stringify(msg))` del lado RN; el
   popup escucha `window.addEventListener('message', ...)` (y `document`, por la
   inconsistencia de WebView en Android).
 
+## Tuto rápido
+
+Inicial: `?theme=dark|light&accentColor=RRGGBB` en la URL del WebView.
+Runtime: `webviewRef.postMessage(JSON.stringify({type:'THEME_UPDATE', theme, accentColor}))`.
+
 **Compatibilidad:** un juego legacy que no manda `theme`/`accentColor` ni el
 `postMessage` de `THEME_UPDATE` no tiene que cambiar nada — el popup se sigue viendo
-igual que en producción hoy (dark + bordes cyan).
+igual que en producción hoy (dark + bordes grises).
 
 ## Probar localmente
 
