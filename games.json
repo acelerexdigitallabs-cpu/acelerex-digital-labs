@@ -25,7 +25,7 @@
     "desc": "Los bloques de colores caen sin parar: encajalos, sumá puntos y no dejes que se acumulen. Directo al grano, con tu mejor puntaje guardado en el dispositivo.",
     "enabled": true,
     "order": 2,
-    "status": "beta"
+    "status": "published"
   },
   {
     "id": "com.acelerex.aceleroidX",
@@ -39,7 +39,7 @@
     "desc": "Controlá la pala, hacé rebotar la bola y destruí cada ladrillo del tablero neón. Cuanto más lejos llegás, más rápido —y más intenso— se pone.",
     "enabled": true,
     "order": 3,
-    "status": "beta"
+    "status": "published"
   },
   {
     "id": "com.acelerex.gridxer",
@@ -67,7 +67,7 @@
     "desc": "Tomá el mando de una nave defensora e interceptá oleadas continuas de fuerzas enemigas antes de que rompan tu línea de defensa. Controles táctiles precisos, patrones de ataque dinámicos y dificultad creciente con estética retro espacial.",
     "enabled": true,
     "order": 5,
-    "status": "beta"
+    "status": "published"
   },
   {
     "id": "com.acelerex.atomixblitz",
