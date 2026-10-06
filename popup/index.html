@@ -415,7 +415,10 @@
 
   function render(games) {
     var list = games
+      // Sólo juegos ya publicados en Google Play: los de prueba cerrada no se
+      // promocionan desde las apps (política de Play sobre fuentes externas).
       .filter(function (g) { return g.enabled !== false && g.id !== currentGameId; })
+      .filter(function (g) { return (g.status || 'published') === 'published'; })
       .sort(function (a, b) { return (a.order || 0) - (b.order || 0); });
 
     var hasBeta = list.some(function (g) { return g.status === 'beta'; });
