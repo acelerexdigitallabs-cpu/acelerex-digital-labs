@@ -106,7 +106,7 @@
     "category": "idle",
     "genre": "Idle de gestión",
     "accent": "orange",
-    "desc": "Tomá las riendas de tu propio taller mecánico: recibí autos, repará, cobrá y reinvertí en herramientas, puestos y mecánicos. Tu garage sigue generando aunque no estés jugando, así que volvé a cobrar y hacelo crecer hasta convertirlo en el mejor de la ciudad.",
+    "desc": "Toma el control de tu propio taller mecánico: recibe autos, repáralos, cobra y reinvierte en herramientas, nuevos puestos y más mecánicos. Tu taller sigue generando dinero aunque no estés jugando, así que regresa a cobrar y hazlo crecer hasta convertirlo en el mejor de la ciudad.",
     "enabled": true,
     "order": 7,
     "status": "beta"

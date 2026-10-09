@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Página para el equipo y los testers: no se enlaza desde el sitio ni desde
+     el popup "Más juegos", y no se indexa. Se comparte la URL directo. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Testers — Acelerex Digital Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --void: #0a0d14;
+    --void-2: #10141f;
+    --void-3: #161b28;
+    --line: #262c3f;
+    --brand: #3d7bff;
+    --brand-soft: #6f9fff;
+    --ink: #e9ecf5;
+    --ink-dim: #9198b0;
+    --ink-faint: #5c6377;
+    --good: #4ade80;
+    --amber: #ffb020;
+    --font-display: 'Chakra Petch', ui-sans-serif, system-ui, sans-serif;
+    --font-body: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+    --font-mono: ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+
+  body {
+    margin: 0;
+    background: var(--void);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; display: block; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; margin: 0; }
+  p { margin: 0; }
+  button { font-family: inherit; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 40px 16px 64px; }
+
+  .head { margin-bottom: 24px; }
+  .eyebrow {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand-soft);
+    margin-bottom: 8px;
+  }
+  .head h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); line-height: 1.15; }
+  .head p { color: var(--ink-dim); margin-top: 8px; max-width: 60ch; }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .search {
+    flex: 1 1 260px;
+    min-width: 0;
+    background: var(--void-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    font: inherit;
+    padding: 10px 14px;
+  }
+  .search:focus { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--void-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--ink);
+    font-weight: 600;
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  .toggle::before {
+    content: "";
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ink-faint);
+  }
+  .toggle[aria-pressed="true"] {
+    border-color: rgba(255,176,32,0.55);
+    background: rgba(255,176,32,0.12);
+    color: var(--amber);
+  }
+  .toggle[aria-pressed="true"]::before { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+  .toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+  .count { color: var(--ink-faint); font-size: 0.9rem; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+    gap: 18px;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background: var(--void-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .card__art {
+    aspect-ratio: 2 / 1;
+    background: var(--void-3) center / cover no-repeat;
+  }
+  .card__art--icon {
+    display: grid;
+    place-items: center;
+  }
+  .card__art--icon img { width: 96px; height: 96px; object-fit: contain; }
+  .card__body { display: flex; flex-direction: column; gap: 10px; padding: 16px; flex: 1; }
+  .card__top { display: flex; align-items: center; gap: 12px; }
+  .card__icon { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; flex: none; background: var(--void-3); }
+  .card__name { font-size: 1.1rem; line-height: 1.2; }
+  .card__pkg { font-family: var(--font-mono); font-size: 0.75rem; color: var(--ink-faint); word-break: break-all; }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 999px;
+  }
+  .badge::before { content: ""; width: 6px; height: 6px; border-radius: 50%; }
+  .badge-live { background: rgba(74,222,128,0.13); color: var(--good); border: 1px solid rgba(74,222,128,0.35); }
+  .badge-live::before { background: var(--good); }
+  .badge-beta { background: rgba(255,176,32,0.12); color: var(--amber); border: 1px solid rgba(255,176,32,0.35); }
+  .badge-beta::before { background: var(--amber); }
+
+  .card__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 4px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    padding: 8px 12px;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn-primary { background: var(--brand); border-color: var(--brand); color: #fff; }
+  .btn:hover { border-color: var(--brand-soft); }
+  .btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 1px; }
+
+  .empty { color: var(--ink-dim); padding: 32px 0; text-align: center; grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="head">
+    <span class="eyebrow">Acelerex Digital Labs · equipo y testers</span>
+    <h1>Links de prueba</h1>
+    <p>Todos nuestros juegos y apps con sus links de Google Play. Para los que están en prueba cerrada, primero toca "Unirme a la prueba" con la cuenta de Google que registraste como tester.</p>
+  </header>
+
+  <div class="toolbar">
+    <input type="search" id="search" class="search" placeholder="Buscar por nombre o paquete…" aria-label="Buscar">
+    <button type="button" id="onlyTesting" class="toggle" aria-pressed="false">Ver solo en pruebas</button>
+    <span class="count" id="count" aria-live="polite"></span>
+  </div>
+
+  <div class="grid" id="grid"><p class="empty">Cargando…</p></div>
+</main>
+
+<script>
+(function () {
+  var SOURCES = ["../games.json", "../apps.json"];
+  var grid = document.getElementById("grid");
+  var search = document.getElementById("search");
+  var toggle = document.getElementById("onlyTesting");
+  var count = document.getElementById("count");
+  var items = [];
+  var state = { search: "", onlyTesting: false };
+
+  function isPublished(it) { return it.status === "published"; }
+
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function link(label, href, cls) {
+    var a = el("a", "btn" + (cls ? " " + cls : ""), label);
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener";
+    return a;
+  }
+
+  function copyButton(url) {
+    var btn = el("button", "btn", "Copiar link");
+    btn.type = "button";
+    btn.addEventListener("click", function () {
+      var done = function () {
+        btn.textContent = "¡Copiado!";
+        setTimeout(function () { btn.textContent = "Copiar link"; }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(done, function () { window.prompt("Copia el link:", url); });
+      } else {
+        window.prompt("Copia el link:", url);
+      }
+    });
+    return btn;
+  }
+
+  function card(it) {
+    var article = el("article", "card");
+
+    var art = el("div", "card__art");
+    if (it.banner) {
+      art.style.backgroundImage = "url(../" + it.banner + ")";
+    } else {
+      art.classList.add("card__art--icon");
+      var big = el("img");
+      big.src = it.icon;
+      big.alt = "";
+      art.appendChild(big);
+    }
+    article.appendChild(art);
+
+    var body = el("div", "card__body");
+    var top = el("div", "card__top");
+    var icon = el("img", "card__icon");
+    icon.src = it.icon;
+    icon.alt = "";
+    icon.loading = "lazy";
+    var titles = el("div");
+    titles.appendChild(el("h2", "card__name", it.name));
+    titles.appendChild(el("div", "card__pkg", it.id));
+    top.appendChild(icon);
+    top.appendChild(titles);
+    body.appendChild(top);
+
+    body.appendChild(el("span", "badge " + (isPublished(it) ? "badge-live" : "badge-beta"),
+      isPublished(it) ? "Publicada" : "En pruebas"));
+
+    var actions = el("div", "card__actions");
+    if (!isPublished(it)) {
+      actions.appendChild(link("Unirme a la prueba", "https://play.google.com/apps/testing/" + it.id, "btn-primary"));
+      actions.appendChild(link("Google Play", it.url));
+    } else {
+      actions.appendChild(link("Google Play", it.url, "btn-primary"));
+    }
+    actions.appendChild(copyButton(it.url));
+    body.appendChild(actions);
+
+    article.appendChild(body);
+    return article;
+  }
+
+  function render() {
+    var q = state.search;
+    var list = items.filter(function (it) {
+      if (state.onlyTesting && isPublished(it)) return false;
+      if (q && (it.name + " " + it.id).toLowerCase().indexOf(q) === -1) return false;
+      return true;
+    });
+
+    grid.innerHTML = "";
+    if (!list.length) {
+      grid.appendChild(el("p", "empty", "No hay resultados."));
+    } else {
+      list.forEach(function (it) { grid.appendChild(card(it)); });
+    }
+    count.textContent = list.length + (list.length === 1 ? " resultado" : " resultados");
+  }
+
+  search.addEventListener("input", function () {
+    state.search = search.value.trim().toLowerCase();
+    render();
+  });
+
+  toggle.addEventListener("click", function () {
+    state.onlyTesting = !state.onlyTesting;
+    toggle.setAttribute("aria-pressed", String(state.onlyTesting));
+    render();
+  });
+
+  Promise.all(SOURCES.map(function (src) {
+    return fetch(src, { cache: "no-store" })
+      .then(function (res) { return res.json(); })
+      .catch(function () { return []; });
+  })).then(function (lists) {
+    items = [].concat.apply([], lists)
+      .filter(function (it) { return it.enabled !== false; })
+      .sort(function (a, b) {
+        // Primero lo que está en pruebas, después lo publicado; dentro de cada grupo, por nombre.
+        var pa = isPublished(a) ? 1 : 0, pb = isPublished(b) ? 1 : 0;
+        return pa - pb || a.name.localeCompare(b.name, "es");
+      });
+    render();
+  });
+})();
+</script>
+</body>
+</html>
