@@ -413,6 +413,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .game-card[data-accent="violet"] { --card-glow: rgba(140,92,255,0.45); }
   .game-card[data-accent="teal"] { --card-glow: rgba(45,212,191,0.45); }
   .game-card[data-accent="indigo"] { --card-glow: rgba(99,102,241,0.45); }
+  .game-card[data-accent="orange"] { --card-glow: rgba(255,122,38,0.45); }
   .game-card:hover { border-color: var(--card-glow); box-shadow: 0 0 0 1px var(--card-glow), 0 20px 40px -20px rgba(0,0,0,0.7); }
 
   .game-card__art {
@@ -915,7 +916,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     if (!grid || !pager || !filters || !searchInput) return;
 
     var PAGE_SIZE = 12;
-    var CATEGORY_LABELS = { arcade: "Arcade", puzzle: "Puzzle" };
+    var CATEGORY_LABELS = { arcade: "Arcade", puzzle: "Puzzle", idle: "Idle" };
     var allGames = [];
     var state = { search: "", categories: [], page: 1 };
 
