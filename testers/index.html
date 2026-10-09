@@ -180,7 +180,7 @@
   <header class="head">
     <span class="eyebrow">Acelerex Digital Labs · equipo y testers</span>
     <h1>Links de prueba</h1>
-    <p>Todos nuestros juegos y apps con sus links de Google Play. Para los que están en prueba cerrada, primero toca "Unirme a la prueba" con la cuenta de Google que registraste como tester.</p>
+    <p>Todos nuestros juegos y apps. Para los que están en prueba cerrada, toca "Unirme a la prueba" con la cuenta de Google que registraste como tester; desde ahí te lleva a descargarlo en Google Play.</p>
   </header>
 
   <div class="toolbar">
@@ -268,13 +268,16 @@
       isPublished(it) ? "Publicada" : "En pruebas"));
 
     var actions = el("div", "card__actions");
+    // En pruebas: el link útil es el de inscripción; la propia página de
+    // inscripción ya lleva a la ficha de Play una vez que el tester se une.
     if (!isPublished(it)) {
-      actions.appendChild(link("Unirme a la prueba", "https://play.google.com/apps/testing/" + it.id, "btn-primary"));
-      actions.appendChild(link("Google Play", it.url));
+      var optIn = "https://play.google.com/apps/testing/" + it.id;
+      actions.appendChild(link("Unirme a la prueba", optIn, "btn-primary"));
+      actions.appendChild(copyButton(optIn));
     } else {
       actions.appendChild(link("Google Play", it.url, "btn-primary"));
+      actions.appendChild(copyButton(it.url));
     }
-    actions.appendChild(copyButton(it.url));
     body.appendChild(actions);
 
     article.appendChild(body);
