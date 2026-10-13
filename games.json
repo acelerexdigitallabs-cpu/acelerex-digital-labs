@@ -95,7 +95,7 @@
     "desc": "El clásico sudoku sin distracciones: elegí la dificultad, anotá tus candidatos y resolvé el tablero a tu ritmo. Pistas cuando las necesités y tu progreso guardado para retomar cuando quieras.",
     "enabled": true,
     "order": 0,
-    "status": "beta"
+    "status": "published"
   },
   {
     "id": "com.acelerex.garageidle",
