@@ -8,5 +8,16 @@
     "enabled": true,
     "order": 0,
     "status": "beta"
+  },
+  {
+    "id": "com.acelerex.acelerexcv",
+    "name": "Acelerex CV",
+    "url": "https://play.google.com/store/apps/details?id=com.acelerex.acelerexcv",
+    "icon": "https://acelerexdigitallabs-cpu.github.io/acelerex-digital-labs/icons/acelerexcv.png",
+    "banner": "icons/banners/acelerexcv-banner.jpg",
+    "category": "productivity",
+    "enabled": true,
+    "order": 1,
+    "status": "beta"
   }
 ]
